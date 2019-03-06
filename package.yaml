@@ -38,4 +38,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - hspec == 2.6.1
+    - QuickCheck == 2.12.6.1
     - playground-haskell
