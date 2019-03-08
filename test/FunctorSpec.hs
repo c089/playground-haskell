@@ -10,28 +10,21 @@ spec = do
       let
         idProperty  = functorIdentity :: (Identity String) -> Bool
         composeProperty x = functorCompose (+1) (*2) ( x:: (Identity Int) )
-
       it "abides the identity law" $ property idProperty
-
       it "abides the composition law" $ property composeProperty
-
 
     describe "Pair" $ do
       let
         idProperty = functorIdentity :: (Pair Int) -> Bool
         composeProperty x = functorCompose (+1) (*2) ( x :: (Pair Int) )
-
       it "abides the identity law" $ property idProperty
-
       it "abides the composition law" $ property composeProperty
 
     describe "Two" $ do
       let
         idProperty = functorIdentity :: (Two Int String) -> Bool
         composeProperty x  = functorCompose (length) (+1) (x :: (Two Int String))
-
       it "abides the identity law" $ property idProperty
-
       it "abides the compose law" $ property composeProperty
 
     describe "Three a b c" $ do
