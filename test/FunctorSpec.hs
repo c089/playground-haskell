@@ -29,6 +29,17 @@ instance Arbitrary a => Arbitrary (Pair a) where
     a2 <- arbitrary
     return (Pair a1 a2)
 
+data Two a b = Two a b deriving (Show, Eq)
+
+instance Functor (Two a) where
+  fmap f (Two a b) = Two a (f b)
+
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
+  arbitrary = do
+    a <- arbitrary
+    b <- arbitrary
+    return (Two a b)
+
 spec :: Spec
 spec = do
   describe "Chapter 16 (Functor)"  $ do
@@ -52,3 +63,15 @@ spec = do
       it "abides the identity law" $ property idProperty
 
       it "abides the composition law" $ property composeProperty
+
+    describe "Two" $ do
+      let
+        idProperty :: (Two Int String) -> Bool
+        idProperty = functorIdentity
+      -- (.) :: (b -> c)      -> (a -> b)        -> a      -> c
+      -- (.) :: (Int -> c)    -> (String -> Int) -> String -> c
+        composeProperty x  = functorCompose (length) (+1) (x :: (Two Int String))
+
+      it "abides the identity law" $ property idProperty
+
+      it "abides the compose law" $ property composeProperty
