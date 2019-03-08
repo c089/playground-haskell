@@ -38,7 +38,7 @@ spec = do
         (monoidLeftIdentity::OS->Bool)
 
       it "satisfies right identity" $ property
-        (monoidRightIdentity::Optional' String->Bool)
+        (monoidRightIdentity::OS->Bool)
 
 monoidAssoc :: (Eq m, Monoid m) => m -> m -> m -> Bool
 monoidAssoc a b c = (a <> (b <> c)) == ((a <> b) <> c)
