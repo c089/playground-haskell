@@ -3,6 +3,43 @@ module FunctorSpec(spec, Identity) where
 import Test.Hspec
 import Test.QuickCheck
 
+spec :: Spec
+spec = do
+  describe "Chapter 16 (Functor)"  $ do
+    describe "Identity" $ do
+      let
+        idProperty :: (Identity String) -> Bool
+        idProperty  = functorIdentity
+        composeProperty x = functorCompose (+1) (*2) ( x:: (Identity Int) )
+
+      it "abides the identity law" $ property idProperty
+
+      it "abides the composition law" $ property composeProperty
+
+
+    describe "Pair" $ do
+      let
+        idProperty :: (Pair Int) -> Bool
+        idProperty = functorIdentity
+        composeProperty x = functorCompose (+1) (*2) ( x :: (Pair Int) )
+
+      it "abides the identity law" $ property idProperty
+
+      it "abides the composition law" $ property composeProperty
+
+    describe "Two" $ do
+      let
+        idProperty :: (Two Int String) -> Bool
+        idProperty = functorIdentity
+      -- (.) :: (b -> c)      -> (a -> b)        -> a      -> c
+      -- (.) :: (Int -> c)    -> (String -> Int) -> String -> c
+        composeProperty x  = functorCompose (length) (+1) (x :: (Two Int String))
+
+      it "abides the identity law" $ property idProperty
+
+      it "abides the compose law" $ property composeProperty
+
+
 functorIdentity :: (Functor f, Eq (f a)) => f a -> Bool
 functorIdentity f = fmap id f == f
 functorCompose :: (Eq (f c), Functor f) => (a -> b) -> (b -> c) -> f a -> Bool
@@ -39,39 +76,3 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
     a <- arbitrary
     b <- arbitrary
     return (Two a b)
-
-spec :: Spec
-spec = do
-  describe "Chapter 16 (Functor)"  $ do
-    describe "Identity" $ do
-      let
-        idProperty :: (Identity String) -> Bool
-        idProperty  = functorIdentity
-        composeProperty x = functorCompose (+1) (*2) ( x:: (Identity Int) )
-
-      it "abides the identity law" $ property idProperty
-
-      it "abides the composition law" $ property composeProperty
-
-
-    describe "Pair" $ do
-      let
-        idProperty :: (Pair Int) -> Bool
-        idProperty = functorIdentity
-        composeProperty x = functorCompose (+1) (*2) ( x :: (Pair Int) )
-
-      it "abides the identity law" $ property idProperty
-
-      it "abides the composition law" $ property composeProperty
-
-    describe "Two" $ do
-      let
-        idProperty :: (Two Int String) -> Bool
-        idProperty = functorIdentity
-      -- (.) :: (b -> c)      -> (a -> b)        -> a      -> c
-      -- (.) :: (Int -> c)    -> (String -> Int) -> String -> c
-        composeProperty x  = functorCompose (length) (+1) (x :: (Two Int String))
-
-      it "abides the identity law" $ property idProperty
-
-      it "abides the compose law" $ property composeProperty
