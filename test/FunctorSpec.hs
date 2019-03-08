@@ -39,6 +39,14 @@ spec = do
 
       it "abides the compose law" $ property composeProperty
 
+    describe "Three a b c" $ do
+      let
+        idProperty :: (Three Bool Int String) -> Bool
+        idProperty = functorIdentity
+        composeProperty x =  functorCompose  (length) (+1) (x :: (Three Bool Int String))
+
+      it "abides the identity law" $ property idProperty
+      it "abides the composition law" $ property composeProperty
 
 functorIdentity :: (Functor f, Eq (f a)) => f a -> Bool
 functorIdentity f = fmap id f == f
@@ -76,3 +84,17 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
     a <- arbitrary
     b <- arbitrary
     return (Two a b)
+
+
+data Three a b c = Three a b c deriving (Show, Eq)
+
+
+instance (Arbitrary a, Arbitrary b, Arbitrary c) => Arbitrary (Three a b c) where
+  arbitrary = do
+    a <- arbitrary
+    b <- arbitrary
+    c <- arbitrary
+    return $ Three a b c
+
+instance Functor (Three a b) where
+  fmap f (Three a b c) =  Three a b (f c)
