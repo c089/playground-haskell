@@ -8,8 +8,7 @@ spec = do
   describe "Chapter 16 (Functor)"  $ do
     describe "Identity" $ do
       let
-        idProperty :: (Identity String) -> Bool
-        idProperty  = functorIdentity
+        idProperty  = functorIdentity :: (Identity String) -> Bool
         composeProperty x = functorCompose (+1) (*2) ( x:: (Identity Int) )
 
       it "abides the identity law" $ property idProperty
@@ -19,8 +18,7 @@ spec = do
 
     describe "Pair" $ do
       let
-        idProperty :: (Pair Int) -> Bool
-        idProperty = functorIdentity
+        idProperty = functorIdentity :: (Pair Int) -> Bool
         composeProperty x = functorCompose (+1) (*2) ( x :: (Pair Int) )
 
       it "abides the identity law" $ property idProperty
@@ -29,10 +27,7 @@ spec = do
 
     describe "Two" $ do
       let
-        idProperty :: (Two Int String) -> Bool
-        idProperty = functorIdentity
-      -- (.) :: (b -> c)      -> (a -> b)        -> a      -> c
-      -- (.) :: (Int -> c)    -> (String -> Int) -> String -> c
+        idProperty = functorIdentity :: (Two Int String) -> Bool
         composeProperty x  = functorCompose (length) (+1) (x :: (Two Int String))
 
       it "abides the identity law" $ property idProperty
@@ -41,8 +36,7 @@ spec = do
 
     describe "Three a b c" $ do
       let
-        idProperty :: (Three Bool Int String) -> Bool
-        idProperty = functorIdentity
+        idProperty = functorIdentity :: (Three Bool Int String) -> Bool
         composeProperty x =  functorCompose  (length) (+1) (x :: (Three Bool Int String))
 
       it "abides the identity law" $ property idProperty
@@ -50,8 +44,7 @@ spec = do
 
     describe "Three' a b" $ do
       let
-        idProperty :: (Three' Int String) -> Bool
-        idProperty = functorIdentity
+        idProperty = functorIdentity :: (Three' Int String) -> Bool
         composeProperty x =  functorCompose  (length) (+1) (x :: (Three' Int String))
 
       it "abides the identity law" $ property idProperty
@@ -59,8 +52,7 @@ spec = do
 
     describe "Four a b c d" $ do
       let
-        idProperty :: (Four Char Bool Int String) -> Bool
-        idProperty = functorIdentity
+        idProperty = functorIdentity :: (Four Char Bool Int String) -> Bool
         composeProperty x =  functorCompose  (length) (+1) (x :: (Four Bool Char Int String))
 
       it "abides the identity law" $ property idProperty
@@ -68,8 +60,7 @@ spec = do
 
     describe "Four' a b" $ do
       let
-        idProperty :: (Four' Int String) -> Bool
-        idProperty = functorIdentity
+        idProperty = functorIdentity :: (Four' Int String) -> Bool
         composeProperty x =  functorCompose  (length) (+1) (x :: (Four' Int String))
 
       it "abides the identity law" $ property idProperty
